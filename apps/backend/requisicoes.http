@@ -1,0 +1,67 @@
+###
+GET http://localhost:4000/ping
+
+###
+GET http://localhost:4000/perfis
+
+###
+POST http://localhost:4000/perfis/cadastro
+Content-Type: application/json
+
+{
+    "nome": "Aluno",
+    "descricao": "Controle Parcial"
+}
+
+###
+GET http://localhost:4000/usuarios
+
+###
+POST http://localhost:4000/usuarios/cadastro
+//Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiY3Vyc29JZCI6bnVsbCwicGVyaW9kb0xldGl2b0lkIjpudWxsLCJub21lIjoiSGVucmlxdWUgTWFnYWxow6NlcyBTaW3DtWVzIiwiZW1haWwiOiJoZW5yaXF1ZS5zaW1vZXNAZmVsdW1hLm9yZy5iciIsImxvZ2luIjoiaGVucmlxdWUuc2ltb2VzQGZlbHVtYS5vcmcuYnIiLCJjcGYiOiIwMzkuNjU1LjIxNi0xNiIsInN0YXR1cyI6IkFUSVZPIiwicGVyZmlzIjpbeyJpZCI6MSwibm9tZSI6IkFETUlOSVNUUkFET1IiLCJkZXNjcmljYW8iOiJDT05UUk9MRSBUT1RBTCJ9XSwiaWF0IjoxNzQ1NDk5MTA0LCJleHAiOjE3NDY3OTUxMDR9.O4ALyRGJNjvTy6X5wvjuJTe2Tsn3re7xfdOTV4TWAJI
+Content-Type: application/json
+
+{
+    "nome": "Administrador do Sistema",
+    "email": "admin@feluma.org.br",
+    "login": "admin@feluma.org.br",
+    "senha": "senha",
+    "cpf": "137.288.350-99",
+    "status": "ATIVO",
+    "perfis": [
+        { "id": 1 }
+    ]
+}
+
+###
+POST http://localhost:4000/auth/logar
+Content-Type: application/json
+
+{
+    "login": "henrique.simoes@feluma.org.br",
+    "senha": "senha"
+}
+
+###
+GET http://localhost:4000/usuarios?pagina=0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibm9tZSI6IkhlbnJpcXVlIE1hZ2FsaMOjZXMgU2ltw7VlcyIsImVtYWlsIjoiaGVucmlxdWUuc2ltb2VzQGZlbHVtYS5vcmcuYnIiLCJsb2dpbiI6ImhlbnJpcXVlLnNpbW9lc0BmZWx1bWEub3JnLmJyIiwiY3BmIjoiMDM5LjY1NS4yMTYtMTYiLCJzdGF0dXMiOiJBVElWTyIsInBlcmZpcyI6W3siaWQiOjEsIm5vbWUiOiJBZG1pbmlzdHJhZG9yIiwiZGVzY3JpY2FvIjoiQ29udHJvbGUgVG90YWwifV0sImlhdCI6MTczNTU4Mjk5MiwiZXhwIjoxNzM2ODc4OTkyfQ.cB8Jwa-mgPYr235sAKKd1RES-mZIax6Wf1jDAmghdoc 
+
+###
+GET http://localhost:4000/usuarios/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibm9tZSI6IkhlbnJpcXVlIE1hZ2FsaMOjZXMgU2ltw7VlcyIsImVtYWlsIjoiaGVucmlxdWUuc2ltb2VzQGZlbHVtYS5vcmcuYnIiLCJsb2dpbiI6ImhlbnJpcXVlLnNpbW9lc0BmZWx1bWEub3JnLmJyIiwiY3BmIjoiMDIyLjYxNi45OTgtNDgiLCJzdGF0dXMiOiJBVElWTyIsInBlcmZpcyI6W3siaWQiOjEsIm5vbWUiOiJBZG1pbmlzdHJhZG9yIiwiZGVzY3JpY2FvIjoiQ29udHJvbGUgVG90YWwifV0sImlhdCI6MTczNDQ2NTY4OSwiZXhwIjoxNzM1NzYxNjg5fQ._VC955_j_Al1-V_V9UhgX7B3XKQW9TQf6fZfAnoHDao
+
+###
+DELETE http://localhost:4000/usuarios/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiY3Vyc29JZCI6bnVsbCwicGVyaW9kb0xldGl2b0lkIjpudWxsLCJub21lIjoiSGVucmlxdWUgTWFnYWxow6NlcyBTaW3DtWVzIiwiZW1haWwiOiJoZW5yaXF1ZS5zaW1vZXNAZmVsdW1hLm9yZy5iciIsImxvZ2luIjoiaGVucmlxdWUuc2ltb2VzQGZlbHVtYS5vcmcuYnIiLCJjcGYiOiIwMzkuNjU1LjIxNi0xNiIsInN0YXR1cyI6IkFUSVZPIiwicGVyZmlzIjpbeyJpZCI6MSwibm9tZSI6IkFETUlOSVNUUkFET1IiLCJkZXNjcmljYW8iOiJDT05UUk9MRSBUT1RBTCJ9XSwiaWF0IjoxNzQ1NDk5MTA0LCJleHAiOjE3NDY3OTUxMDR9.O4ALyRGJNjvTy6X5wvjuJTe2Tsn3re7xfdOTV4TWAJI
+
+###
+GET http://localhost:4000/clubes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiY3Vyc29JZCI6bnVsbCwicGVyaW9kb0xldGl2b0lkIjpudWxsLCJub21lIjoiSGVucmlxdWUgTWFnYWxow6NlcyBTaW3DtWVzIiwiZW1haWwiOiJoZW5yaXF1ZS5zaW1vZXNAZmVsdW1hLm9yZy5iciIsImxvZ2luIjoiaGVucmlxdWUuc2ltb2VzQGZlbHVtYS5vcmcuYnIiLCJjcGYiOiIwMzkuNjU1LjIxNi0xNiIsInN0YXR1cyI6IkFUSVZPIiwicGVyZmlzIjpbeyJpZCI6MSwibm9tZSI6IkFETUlOSVNUUkFET1IiLCJkZXNjcmljYW8iOiJDT05UUk9MRSBUT1RBTCJ9XSwiaWF0IjoxNzQ2OTgxMTIwLCJleHAiOjE3NDgyNzcxMjB9.Bjq_76Dv-F3d8ZjOaMZCcqgGnw67Omm1WT-4u7HqCxw
+
+###
+GET http://localhost:4000/periodosInscricoes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiY3Vyc29JZCI6bnVsbCwicGVyaW9kb0xldGl2b0lkIjpudWxsLCJub21lIjoiSGVucmlxdWUgTWFnYWxow6NlcyBTaW3DtWVzIiwiZW1haWwiOiJoZW5yaXF1ZS5zaW1vZXNAZmVsdW1hLm9yZy5iciIsImxvZ2luIjoiaGVucmlxdWUuc2ltb2VzQGZlbHVtYS5vcmcuYnIiLCJjcGYiOiIwMzkuNjU1LjIxNi0xNiIsInN0YXR1cyI6IkFUSVZPIiwicGVyZmlzIjpbeyJpZCI6MSwibm9tZSI6IkFETUlOSVNUUkFET1IiLCJkZXNjcmljYW8iOiJDT05UUk9MRSBUT1RBTCJ9XSwiaWF0IjoxNzQ2OTgxMTIwLCJleHAiOjE3NDgyNzcxMjB9.Bjq_76Dv-F3d8ZjOaMZCcqgGnw67Omm1WT-4u7HqCxw
+
+###
+GET http://localhost:4000/pedidos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiY3Vyc29JZCI6bnVsbCwicGVyaW9kb0xldGl2b0lkIjpudWxsLCJub21lIjoiSGVucmlxdWUgTWFnYWxow6NlcyBTaW3DtWVzIiwiZW1haWwiOiJoZW5yaXF1ZS5zaW1vZXNAZmVsdW1hLm9yZy5iciIsImxvZ2luIjoiaGVucmlxdWUuc2ltb2VzQGZlbHVtYS5vcmcuYnIiLCJjcGYiOiIwMzkuNjU1LjIxNi0xNiIsInN0YXR1cyI6IkFUSVZPIiwicGVyZmlzIjpbeyJpZCI6MSwibm9tZSI6IkFETUlOSVNUUkFET1IiLCJkZXNjcmljYW8iOiJDT05UUk9MRSBUT1RBTCJ9XSwiaWF0IjoxNzQ1NDk5MTA0LCJleHAiOjE3NDY3OTUxMDR9.O4ALyRGJNjvTy6X5wvjuJTe2Tsn3re7xfdOTV4TWAJI

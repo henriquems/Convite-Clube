@@ -1,0 +1,180 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id Int @id @default(autoincrement())
+  curso Curso? @relation(fields: [cursoId], references: [id])
+  cursoId Int?  @map("curso_id")
+  periodoLetivo PeriodoLetivo? @relation(fields: [periodoLetivoId], references: [id])
+  periodoLetivoId Int? @map("periodo_letivo_id")
+  nome String
+  email String
+  login String @unique
+  senha String
+  cpf String
+  status String
+  perfis Perfil[]
+  pedidos Pedido[]
+  enderecos Endereco[]
+  retornos Retorno[]
+
+  @@map("usuario")
+}
+
+model Perfil {
+  id Int @id @default(autoincrement())
+  nome String @unique
+  descricao String
+  usuarios Usuario[]
+
+  @@map("perfil")
+}
+
+model Curso {
+  id Int @id @default(autoincrement())
+  descricao String @unique
+  usuarios Usuario[]
+
+  @@map("curso")
+}
+
+model PeriodoLetivo {
+  id Int @id @default(autoincrement())
+  descricao String @unique
+  usuarios Usuario[]
+
+  @@map("periodo_letivo")
+}
+
+model Clube {
+  id Int @id @default(autoincrement())
+  descricao String @unique
+  periodoInscricoes PeriodoInscricao[]
+  
+  @@map("clube")
+}
+
+model PeriodoInscricao {
+  id Int @id @default(autoincrement())
+  clube Clube @relation(fields: [clubeId], references: [id])
+  clubeId Int @map("clube_id")
+  descricao String
+  dataInicio DateTime @map("data_inicio")
+  dataFim DateTime @map("data_fim")
+  quantidadeConvite Int @map("quantidade_convite")
+  valorConvite Decimal @db.Decimal(10, 2) @map("valor_convite")
+  dataLimitePagamento DateTime @map("data_limite_pagamento")
+  pedidos Pedido[]
+  
+  @@map("periodo_inscricao")
+}
+
+model Pedido {
+  id Int @id @default(autoincrement())
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  usuarioId Int @map("usuario_id")
+  periodoInscricao PeriodoInscricao @relation(fields: [periodoInscricaoId], references: [id])
+  periodoInscricaoId Int @map("periodo_inscricao_id")
+  numero String @unique
+  statusPagamento String @map("status_pagamento")
+  valorPedido Decimal @db.Decimal(10, 2) @map("valor_pedido")
+  valorPago Decimal? @db.Decimal(10, 2) @map("valor_pago")
+  dataPagamento DateTime? @map("data_pagamento")
+  dataPedido DateTime @map("data_pedido")
+  boletos Boleto[]
+
+  @@map("pedido")
+}
+
+model Endereco {
+  id Int @id @default(autoincrement())
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  usuarioId Int @map("usuario_id")
+  logradouro String
+  cidade String
+  estado String
+  cep String
+  bairro String
+  numero String
+  complemento String?
+
+  @@map("endereco")
+}
+
+model Boleto {
+  id Int @id @default(autoincrement())
+  pedido Pedido @relation(fields: [pedidoId], references: [id])
+  pedidoId Int @map("pedido_id")
+  identificadorConvenio String @map("identificador_convenio")
+  referenciaTransacao String? @map("referencia_transacao")
+  valor Int
+  quantidadePonto String @map("quantidade_ponto")
+  tipoPagamento String @map("tipo_pagamento")
+  cpfCnpj String @map("cpf_cnpj")
+  indicadorPessoa String @map("indicador_pessoa")
+  valorDesconto String? @map("valor_desconto")
+  dataLimiteDesconto String? @map("data_limite_desconto")
+  tipoDuplicata String @map("tipo_duplicata")
+  urlRetorno String @map("url_retorno")
+  urlInforma String? @map("url_informa")
+  nome String
+  endereco String
+  cidade String
+  estado String
+  cep String
+  mensagem String
+  statusBoleto String @map("status_boleto")
+  statusEnvio String @map("status_envio")
+  valorPagamento String? @map("valor_pagamento")
+  tarifaBancaria String? @map("tarifa_bancaria")
+  dataVencimento DateTime @map("data_vencimento")
+  dataPagamento DateTime? @map("data_pagamento")
+  dataBoleto DateTime @map("data_boleto")
+
+  @@map("boleto")
+}
+
+model Retorno {
+  id Int @id @default(autoincrement())
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  usuarioId Int  @map("usuario_id")
+  statusRetorno StatusRetorno? @relation(fields: [statusRetornoId], references: [id])
+  statusRetornoId Int?  @map("status_retorno_id")
+  linha String
+  tipoLinha String?  @map("tipo_linha")
+  status String?
+  banco String?
+  agencia String?
+  conta String?
+  arquivo String?
+  dataProcessamento DateTime  @map("data_processamento")
+  logRetornos LogRetorno[]
+
+  @@map("retorno")
+}
+
+model StatusRetorno {
+  id Int @id @default(autoincrement())
+  descricao String
+  retornos Retorno[]
+
+  @@map("status_retorno")
+}
+
+model LogRetorno {
+  id Int @id @default(autoincrement())
+  retorno Retorno @relation(fields: [retornoId], references: [id])
+  retornoId Int @map("retorno_id")
+  descricao String
+
+  @@map("log_retorno")
+}
