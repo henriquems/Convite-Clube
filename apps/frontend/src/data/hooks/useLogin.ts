@@ -14,7 +14,7 @@ const loginSchema = z.object({
 export default function useLogin() {
     const router = useRouter()
     const { httpPost } = useAPI()
-    const { iniciarSessao, usuario } = useSessao()
+    const { iniciarSessao } = useSessao()
     
     const form = useForm<z.infer<typeof loginSchema>>({
         resolver: zodResolver(loginSchema),

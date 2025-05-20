@@ -22,6 +22,7 @@ import {
 import React from "react"
 import { Input } from "@/components/ui/input"
 import { PaginationWithLinks } from "@/components/ui/pagination-with-links"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
  
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -35,6 +36,8 @@ export function DataTable<TData, TValue>({columns, data, page, pageSize, totalCo
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [sorting, setSorting] = React.useState<SortingState>([])
   
+  const perfisDisponiveis = Array.from(new Set(data.flatMap((u: any) => u.perfis?.map((p: any) => p.nome) || [])))
+
   const table = useReactTable({
     data,
     columns,
@@ -53,6 +56,27 @@ export function DataTable<TData, TValue>({columns, data, page, pageSize, totalCo
   return (
     <div>
       <div className="flex items-center gap-4 mb-3">
+        <Select
+          onValueChange={(value) => {
+            table.getColumn("perfil")?.setFilterValue(
+              value === "__all__" ? undefined : value
+            )
+          }}
+          value={(table.getColumn("perfil")?.getFilterValue() as string) ?? "__all__"}
+        >
+          <SelectTrigger className="border-zinc-300">
+            <SelectValue placeholder="Filtrar por perfil" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="__all__">Todos os perfis</SelectItem>
+            {perfisDisponiveis.map((perfil) => (
+              <SelectItem key={perfil} value={perfil}>
+                {perfil}
+              </SelectItem>
+            ))}
+          </SelectContent>
+       </Select>
+
         <Input
           placeholder="Filtrar por nome"
           value={(table.getColumn("nome")?.getFilterValue() as string) ?? ""}
@@ -61,6 +85,7 @@ export function DataTable<TData, TValue>({columns, data, page, pageSize, totalCo
           }
           className="max-w input"
         />
+
         <Input
           placeholder="Filtrar por e-mail"
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
@@ -69,6 +94,7 @@ export function DataTable<TData, TValue>({columns, data, page, pageSize, totalCo
           }
           className="max-w input"
         />
+
         <Input
           placeholder="Filtrar por login"
           value={(table.getColumn("login")?.getFilterValue() as string) ?? ""}
@@ -77,6 +103,7 @@ export function DataTable<TData, TValue>({columns, data, page, pageSize, totalCo
           }
           className="max-w input"
         />
+
         <Input
           placeholder="Filtrar por CPF"
           value={(table.getColumn("cpf")?.getFilterValue() as string) ?? ""}

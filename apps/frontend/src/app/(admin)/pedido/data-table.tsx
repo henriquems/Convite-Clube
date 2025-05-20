@@ -19,7 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import React, { useEffect } from "react"
+import React from "react"
 import { Input } from "@/components/ui/input"
 import { PaginationWithLinks } from "@/components/ui/pagination-with-links"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"

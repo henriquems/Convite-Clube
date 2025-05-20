@@ -111,7 +111,7 @@ body {
 
     .botao {
       @apply flex justify-center items-center;
-      @apply gap-1 rounded-md px-2 h-10;
+      @apply gap-1 rounded-md px-3 h-10;
       @apply border border-zinc-300;
       @apply text-sm font-light text-zinc-600;
     }

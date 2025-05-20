@@ -4,8 +4,7 @@ import { BlobServiceClient, ContainerClient } from '@azure/storage-blob';
 @Injectable()
 export class AzureService {
     private blobServiceClient: BlobServiceClient;
-    private readonly connectionString = 'DefaultEndpointsProtocol=https;AccountName=felblobs;AccountKey=rznvGeHQ0NPhoVlhwIpBowDiZpOWar7ulFN/19gjX0+TPx/0P4c91tDKP9t16WvubogZQQ4qGpPjXeIX5UdcEA==;EndpointSuffix=core.windows.net';
-
+    private readonly connectionString = process.env.CONECTION_BLOB_AZURE
     constructor() {
         this.blobServiceClient = BlobServiceClient.fromConnectionString(this.connectionString);
     }

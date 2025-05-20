@@ -1,6 +1,12 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"],
-  "rules": { 
+  "root": true,
+  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
+  "plugins": ["@typescript-eslint"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unused-vars": [
       "error",
@@ -12,6 +18,14 @@
         "destructuredArrayIgnorePattern": "^_",
         "varsIgnorePattern": "^_",
         "ignoreRestSiblings": true
+      }
+    ],
+    "@typescript-eslint/no-unused-expressions": [
+      "error",
+      {
+        "allowShortCircuit": true,
+        "allowTernary": true,
+        "allowTaggedTemplates": true
       }
     ]
   }

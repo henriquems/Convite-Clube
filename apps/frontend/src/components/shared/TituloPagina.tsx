@@ -25,7 +25,7 @@ export default function TituloPagina(props: TituloPaginaProps) {
                         <div>
                             { props.quantidadeRegistros !== 0 && 
                                 <span className="text-zinc-400 font-light text-xs">
-                                    ({ props.quantidadeRegistros } { props.entidade })
+                                    {  props.quantidadeRegistros } { props.entidade }
                                 </span>
                             }
                         </div>

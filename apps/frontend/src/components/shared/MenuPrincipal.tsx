@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
-import { IconCalendarWeek, IconChartBar, IconClipboardText, IconCreditCardPay, IconGenderFemale, IconListCheck, IconLogin2, IconLogout2, IconMessage2Down, IconReceiptDollar, IconReportMoney, IconSettingsDollar, IconUsers } from '@tabler/icons-react';
+import { IconCalendarWeek, IconChartBar, IconClipboardText, IconCreditCardPay, IconListCheck, IconLogin2, IconLogout2, IconMessage2Down, IconSettingsDollar, IconUsers } from '@tabler/icons-react';
 import useSessao from '@/data/hooks/useSessao';
 
 const MenuPrinicipal = () => {

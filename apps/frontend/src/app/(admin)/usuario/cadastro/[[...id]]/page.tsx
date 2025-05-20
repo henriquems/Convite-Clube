@@ -26,7 +26,7 @@ export default function CadastroUsuario() {
             >
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(salvar)}>
-                        <div className="w-full lg:w-[50%] mt-2">
+                        <div className="w-full lg:w-[60%] mt-2">
                             <div className="grid md:grid-cols-2 sm:grid-cols-1 w-full gap-2">
                                 <div className="flex flex-col gap-1">
                                     <FormField
@@ -62,30 +62,35 @@ export default function CadastroUsuario() {
                                         render={({ field }) => (
                                             <FormItem>
                                             <FormLabel>Perfis</FormLabel>
-                                            <div className="flex items-center gap-2 h-11 p-2 
-                                                border border-zinc-300 rounded-md bg-zinc-50 shadow-sm">
-                                                {perfis.map((perfil) => {
-                                                const isChecked = field.value?.some((p) => p.id === perfil.id);
-                                                return (
-                                                    <div key={perfil.id} className="flex items-center space-x-1">
-                                                        <Checkbox id={`perfil-${perfil.id}`} checked={isChecked}
-                                                            className="data-[state=checked]:bg-green-700 data-[state=checked]:border-green-800"
+                                            { perfis.length === 0 ? (
+                                                <p className="text-xs text-muted-foreground">Carregando perfis...</p>
+                                            ) : (
+                                                <div className="flex items-center gap-2 h-11 p-2 
+                                                    border border-zinc-300 rounded-md bg-zinc-50 shadow-sm">
+                                                    {perfis.map((perfil) => {
+                                                    const isChecked = field.value?.some(p => p.id === perfil.id)
+                                                    return (
+                                                        <div key={perfil.id} className="flex items-center space-x-1">
+                                                        <Checkbox
+                                                            id={`perfil-${perfil.id}`}
+                                                            checked={isChecked}
                                                             onCheckedChange={(checked) => {
+                                                            const atual = field.value ?? []
                                                             const newValue = checked
-                                                                ? [...field.value, perfil]
-                                                                : field.value.filter((p) => p.id !== perfil.id);
-                                                            field.onChange(newValue);
+                                                                ? [...atual, perfil]
+                                                                : atual.filter((p) => p.id !== perfil.id)
+                                                            field.onChange(newValue)
                                                             }}
                                                         />
-                                                        <Label htmlFor={`perfil-${perfil.id}`}
-                                                            className="font-normal text-zinc-500 cursor-pointer pr-5"
-                                                        >
+                                                        <Label htmlFor={`perfil-${perfil.id}`} 
+                                                            className="cursor-pointer pr-4 text-zinc-500 text-[11px]">
                                                             {perfil.nome}
                                                         </Label>
-                                                    </div>
-                                                );
-                                                })}
-                                            </div>
+                                                        </div>
+                                                    )
+                                                    })}
+                                                </div>
+                                            )}
                                             <FormMessage />
                                             </FormItem>
                                         )}

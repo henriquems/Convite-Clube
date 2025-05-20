@@ -65,7 +65,7 @@ export default function useRetorno() {
         
     useEffect(() => {
         listar();
-    }, []);
+    }, [listar]);
 
     return {
         retornos, page, pageSize, total, setFile, handleUpload, progresso, gerarRelatorio

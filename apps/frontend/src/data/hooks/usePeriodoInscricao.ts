@@ -1,5 +1,5 @@
 import { gerarNumeroAleatorio, PeriodoInscricao, StatusPagamento } from "@conviteclube/core";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { useParams, useSearchParams } from "next/navigation";
 import { useRouter, usePathname } from "next/navigation"
@@ -31,7 +31,7 @@ export default function usePeriodoInscricao() {
     const router = useRouter()
     const pathname = usePathname();
     const params = useParams()
-    const [ mensagem, setMensagem ] = useState("");
+    const [ mensagem ] = useState("");
     const [ periodoInscricoes, setPeriodoIncricoes ] = useState<PeriodoInscricao[]>([])
     const [ total, setTotal ] = useState(0);
     
@@ -66,7 +66,7 @@ export default function usePeriodoInscricao() {
         const resposta = await httpGet(`/periodosInscricoes/convite?page=${page}&pageSize=${pageSize}&usuario=${usuario}`);
         setPeriodoIncricoes(resposta.periodoInscricoes);
         setTotal(resposta.total);
-    }, [httpGet, page, pageSize]);
+    }, [httpGet, page, pageSize, usuario]);
 
     const salvar = async () => {
         await httpPost('/periodosInscricoes/cadastro', {
@@ -90,25 +90,24 @@ export default function usePeriodoInscricao() {
         toast.success("Período Inscrição excluído com sucesso!")
     }
 
-    const recuperar = async (id: number) => {
-        const periodoInscricao = await httpGet(`/periodosInscricoes/${id}`)
-       
+    const recuperar = useCallback(async (id: number) => {
+        const periodoInscricao = await httpGet(`/periodosInscricoes/${id}`);
         if (periodoInscricao) {
             form.reset({
-                id: periodoInscricao.id,
-                clube: {
-                  id: periodoInscricao.clube?.id ?? undefined,
-                  descricao: periodoInscricao.clube?.descricao ?? "",
-                },
-                descricao: periodoInscricao.descricao ?? "",
-                dataInicio: periodoInscricao.dataInicio ? new Date(periodoInscricao.dataInicio) : new Date(),
-                dataFim: periodoInscricao.dataFim ? new Date(periodoInscricao.dataFim) : new Date(),
-                quantidadeConvite: Number(periodoInscricao.quantidadeConvite ?? 0),
-                valorConvite: Number(periodoInscricao.valorConvite ?? 0),
-                dataLimitePagamento: periodoInscricao.dataLimitePagamento ? new Date(periodoInscricao.dataLimitePagamento) : new Date(),
+            id: periodoInscricao.id,
+            clube: {
+                id: periodoInscricao.clube?.id ?? undefined,
+                descricao: periodoInscricao.clube?.descricao ?? "",
+            },
+            descricao: periodoInscricao.descricao ?? "",
+            dataInicio: periodoInscricao.dataInicio ? new Date(periodoInscricao.dataInicio) : new Date(),
+            dataFim: periodoInscricao.dataFim ? new Date(periodoInscricao.dataFim) : new Date(),
+            quantidadeConvite: Number(periodoInscricao.quantidadeConvite ?? 0),
+            valorConvite: Number(periodoInscricao.valorConvite ?? 0),
+            dataLimitePagamento: periodoInscricao.dataLimitePagamento ? new Date(periodoInscricao.dataLimitePagamento) : new Date(),
             });
         }
-    }
+    }, [httpGet, form]);
 
     const reservar = async (id: number) => {
         try {
@@ -146,14 +145,14 @@ export default function usePeriodoInscricao() {
     useEffect(() => {
         if (!params.id) {
             if (pathname === '/relatorio' || pathname === '/periodoInscricao') { 
-                listar();
+            listar();
             } else if (pathname === '/convite') {
-                listarPeriodosProUsuario();
+            listarPeriodosProUsuario();
             }
         } else if (params.id && clubes.length > 0) {
             recuperar(Number(params.id));
         }
-    }, [params.id, clubes, page, pageSize, pathname]);
+    }, [params.id, clubes, page, pageSize, pathname, listar, listarPeriodosProUsuario, recuperar]);
 
     return {
         periodoInscricoes, page, pageSize, total, mensagem, form, clubes,

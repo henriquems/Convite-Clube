@@ -55,7 +55,7 @@ export const columns: ColunasProps = (reservar) => [
                 <div className="flex items-center gap-4 mb-2
                   bg-zinc-200 rounded-lg p-4">
                   <div>
-                    { row.original.clube.descricao === 'CLUBE CRUZEIRO' ? (
+                    { row.original.clube.descricao === 'Clube Cruzeiro' ? (
                       <Image src="/cruzeiro.png" alt={row.original.clube.descricao} 
                         width={100} height={100}
                       />

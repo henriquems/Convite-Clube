@@ -19,7 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import React, { useEffect } from "react"
+import React from "react"
 import { PaginationWithLinks } from "@/components/ui/pagination-with-links"
  
 interface DataTableProps<TData, TValue> {

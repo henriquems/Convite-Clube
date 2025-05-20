@@ -8,13 +8,12 @@ export default function usePerfil() {
     
     const listar = useCallback(async () => {
         const resposta = await httpGet('/perfis')
-        setPerfis(resposta.perfis ?? [])
+        setPerfis(resposta ?? [])
     }, [httpGet])
     
-
     useEffect(() => {
         listar()
-    }, [])
+    }, [listar])
 
     return {
         perfis

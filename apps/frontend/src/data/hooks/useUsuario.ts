@@ -1,5 +1,5 @@
 import { Usuario } from "@conviteclube/core";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { useParams, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation"
@@ -8,7 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import useAPI from "./useAPI";
 import usePerfil from "./usePerfil";
-import { id } from "date-fns/locale";
 
 const perfilSchema = z.object({
     id: z.number().optional(),
@@ -47,7 +46,7 @@ const schemaEdicao = z.object({
     message: "As senhas não coincidem!",
 });
 
-export default function useUsuarios() {
+export default function useUsuario() {
     const router = useRouter()
     const params = useParams()
     const modoEdicao = !!params.id
@@ -56,28 +55,29 @@ export default function useUsuarios() {
     const [ total, setTotal ] = useState(0);
 
     const { perfis } = usePerfil()
+
     const { httpGet, httpPost, httpDelete } = useAPI()
 
     const searchParams = useSearchParams()
     const page: number = parseInt(searchParams.get('page') || "1")
     const pageSize: number = parseInt(searchParams.get('pageSize') || "10")
 
-    const schema = modoEdicao ? schemaEdicao : schemaCriacao
+    const schema = useMemo(() => modoEdicao ? schemaEdicao : schemaCriacao, [modoEdicao]);
 
     const form = useForm<z.infer<typeof schema>>({
         resolver: zodResolver(schema),
         defaultValues: {
-          status: "",
-          perfis: [],
-          nome: "",
-          cpf: "",
-          email: "",
-          login: "",
-          senha: "",
-          repitaSenha: "",
+        status: "",
+        perfis: [],
+        nome: "",
+        cpf: "",
+        email: "",
+        login: "",
+        senha: "",
+        repitaSenha: "",
         }
     })
-    
+
     const listar = useCallback(async function () {
         const resposta = await httpGet(`/usuarios?page=${page}&pageSize=${pageSize}`);
         setUsuarios(resposta.usuarios ?? []);
@@ -111,28 +111,35 @@ export default function useUsuarios() {
         setUsuarios(resposta ?? []);
     }
 
-    const recuperar = async (id: number) => {
-        const usuario = await httpGet(`/usuarios/${id}`)
-        
+    const reset = useCallback(form.reset, [form.reset]);
+
+    const recuperar = useCallback(
+        async (id: number) => {
+        const usuario = await httpGet(`/usuarios/${id}`);
         if (usuario) {
-            form.reset({
-                id: usuario.id,
-                status: usuario.status || "",
-                perfis: usuario.perfis || [],
-                nome: usuario.nome || "",
-                cpf: usuario.cpf || "",
-                email: usuario.email || "",
-                login: usuario.login || "",
-                senha: "",
-                repitaSenha: "",
-            })
+            reset({
+            id: usuario.id,
+            status: usuario.status || "",
+            perfis: usuario.perfis || [],
+            nome: usuario.nome || "",
+            cpf: usuario.cpf || "",
+            email: usuario.email || "",
+            login: usuario.login || "",
+            senha: "",
+            repitaSenha: "",
+            });
         }
-    }
+        },
+        [httpGet, reset]
+    );
 
     useEffect(() => {
-        if (params.id) recuperar(Number(params.id));
-        else listar();
-    }, [params.id, page, pageSize]);
+        if (params.id && !isNaN(Number(params.id))) {
+            recuperar(Number(params.id));
+        } else {
+            listar();
+        }
+    }, [params.id, page, pageSize, listar, recuperar]);
 
     return {
         usuarios, page, pageSize, total, mensagem, form, perfis,

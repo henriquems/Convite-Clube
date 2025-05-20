@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react"
 import { IconClipboardText, IconFileBarcode } from "@tabler/icons-react"
-import { Boleto, formatCurrencyBRL, formatDateTimeBR, Pedido } from "@conviteclube/core"
+import { formatCurrencyBRL, formatDateTimeBR, Pedido } from "@conviteclube/core"
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
  
 type ColunasProps = (handleEmitirBoleto: (pedido: Pedido) => void) => ColumnDef<Pedido>[]

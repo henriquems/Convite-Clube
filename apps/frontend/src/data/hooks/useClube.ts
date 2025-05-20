@@ -13,7 +13,7 @@ export default function useClube() {
     
     useEffect(() => {
         listar()
-    }, [])
+    }, [listar])
 
     return { clubes }
 }

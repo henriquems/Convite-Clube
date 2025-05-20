@@ -7,6 +7,7 @@ import useClube from "./useClube";
 import useCurso from "./useCurso";
 import { useEffect } from "react";
 import useAPI from "./useAPI";
+import { useWatch } from "react-hook-form";
 
 export const relaotorioSchema = z.object({
     clube: z.string().optional(),
@@ -57,10 +58,13 @@ export default function useRelatorio() {
         }
     };
 
+    const cursoSelecionado = useWatch({ control: form.control, name: "curso" });
+
     useEffect(() => {
-        const cursoSelecionado = form.watch("curso");
-        if (cursoSelecionado) recuperarUsuariosDoCurso(Number(cursoSelecionado));
-    }, [form.watch("curso")]);
+        if (cursoSelecionado) {
+            recuperarUsuariosDoCurso(Number(cursoSelecionado));
+        }
+    }, [cursoSelecionado, recuperarUsuariosDoCurso]);
     
     return { 
         form, gerarRelatorio, clubes, cursos, 

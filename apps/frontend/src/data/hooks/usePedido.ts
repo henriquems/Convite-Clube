@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 
 export default function usePedido() {
     const { httpGet } = useAPI()
-    const [ pedido, setPedido ] = useState<Pedido>()
+    const [ pedido ] = useState<Pedido>()
     const [ pedidos, setPedidos ] = useState<Pedido[]>([])
     const [ total, setTotal ] = useState(0);
 
@@ -21,7 +21,7 @@ export default function usePedido() {
     
     useEffect(() => {
         listar();
-    }, []);
+    }, [listar]);
 
     return {
         listar, pedido, pedidos, page, pageSize, total
